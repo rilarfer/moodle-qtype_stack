@@ -1267,7 +1267,7 @@ class MP_Group extends MP_Node {
             }
         }
 
-        $ar = array();
+        $ar = [];
         foreach ($this->items as $value) {
             $ar[] = $value->toString($params);
         }
@@ -1283,7 +1283,7 @@ class MP_Group extends MP_Node {
                 return $indent . "(\n" . implode(", \n", $ar) . "\n$indent)";
             }
             $params['pretty'] = 0;
-            $ar = array();
+            $ar = [];
 
             foreach ($this->items as $value) {
                 $ar[] = $value->toString($params);
@@ -2175,7 +2175,7 @@ class MP_Root extends MP_Node {
         $r = '';
 
         if ($params !== null && isset($params['flattree'])) {
-            $items = array();
+            $items = [];
             foreach ($this->items as $item) {
                 $items[] .= $item->toString($params);
             }

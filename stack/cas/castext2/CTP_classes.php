@@ -34,9 +34,9 @@ declare(strict_types = 1);
    $this->position = null;
   }
   public function getChildren() {
-   return array();
+   return [];
   }
-  public function toString($params=array()) {
+  public function toString($params= []) {
    return "[NO TOSTRING FOR ".get_class($this)."]";
   }
   // Calls a function for all this nodes children.
@@ -74,7 +74,7 @@ declare(strict_types = 1);
   public function getChildren() {
    return $this->items;
   }
-  public function toString($params=array()) {
+  public function toString($params= []) {
    $r = '';
    foreach ($this->items as $item)
     $r .= $item->toString($params);
@@ -109,7 +109,7 @@ class CTP_IOBlock extends CTP_Node {
   $this->channel = $channel;
   $this->variable = $variable;
  }
- public function toString($params=array()) {
+ public function toString($params= []) {
   return "[[".$this->channel.":".$this->variable."]]";
  }
 }
@@ -122,7 +122,7 @@ class CTP_String extends CTP_Node {
   $this->value = $value;
   $this->single = $single;
  }
- public function toString($params=array()) {
+ public function toString($params= []) {
    if ($this->single) {
       return "'".str_replace("'","\\'",str_replace('\\','\\\\',$this->value))."'";
    }
@@ -136,7 +136,7 @@ class CTP_Raw extends CTP_Node {
   parent::__construct();
   $this->value = $value;
  }
- public function toString($params=array()) {
+ public function toString($params= []) {
   return $this->value;
  }
 }
@@ -144,7 +144,7 @@ class CTP_Raw extends CTP_Node {
 class CTP_Block extends CTP_Node {
  public $name = null;
  public $parameters = null;
- public $contents = array();
+ public $contents = [];
  public function __construct($name, $parameters, $contents) {
   parent::__construct();
   $this->name = $name;
@@ -161,7 +161,7 @@ class CTP_Block extends CTP_Node {
         return $this->contents;
     }
  }
- public function toString($params=array()) {
+ public function toString($params= []) {
    if ($this->name === 'comment' && array_key_exists('no comments', $params) && $params['no comments'] === true) {
     return '';
    }

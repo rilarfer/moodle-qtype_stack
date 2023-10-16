@@ -22,12 +22,12 @@
  */
 class stack_singlechar_input extends stack_input {
 
-    protected $extraoptions = array(
+    protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,
         'nounits' => true,
         'validator' => false
-    );
+    ];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
@@ -35,7 +35,7 @@ class stack_singlechar_input extends stack_input {
             return $this->render_error($this->errors);
         }
 
-        $attributes = array(
+        $attributes = [
             'type'      => 'text',
             'name'      => $fieldname,
             'id'        => $fieldname,
@@ -44,7 +44,7 @@ class stack_singlechar_input extends stack_input {
             'value'     => $this->contents_to_maxima($state->contents),
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
-        );
+        ];
 
         if ($readonly) {
             $attributes['readonly'] = 'readonly';
@@ -70,8 +70,8 @@ class stack_singlechar_input extends stack_input {
      * @return array parameters` => default value.
      */
     public static function get_parameters_defaults() {
-        return array(
+        return [
             'mustVerify'      => false,
-            'showValidation'  => 0);
+            'showValidation'  => 0];
     }
 }

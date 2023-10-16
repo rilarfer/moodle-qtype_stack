@@ -63,7 +63,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
     private $statics = null;
 
     // Stores the human-readable trace created at compile time.
-    private $trace = array();
+    private $trace = [];
 
     public function __construct(string $signature, $weight, castext2_static_replacer $statics, $trace) {
         $this->signature = $signature;
@@ -130,7 +130,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
             $this->unpack();
         }
         // The score is null when we have errors. No matter what.
-        if ($this->get_errors() !== array()) {
+        if ($this->get_errors() !== []) {
             return null;
         }
         return $this->score;
@@ -149,7 +149,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
             $this->unpack();
         }
         // The penalty is null when we have errors. No matter what.
-        if ($this->get_errors() !== array()) {
+        if ($this->get_errors() !== []) {
             return null;
         }
         // The penalty is 0 if the score is 1. No matter what.

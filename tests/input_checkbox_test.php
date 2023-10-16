@@ -42,24 +42,24 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 class input_checkbox_test extends qtype_stack_testcase {
 
     protected function expected_choices() {
-        return array(
+        return [
             '' => stack_string('notanswered'),
             '1' => 'x+1',
             '2' => 'x+2',
             '3' => 'sin(pi*n)'
-        );
+        ];
     }
 
     protected function expected_choices_latex() {
-        return array(
+        return [
             '' => stack_string('notanswered'),
             '1' => 'x+1',
             '2' => 'x+2',
             '3' => 'sin(\pi*n)'
-        );
+        ];
     }
 
-    protected function make_checkbox($parameters = array()) {
+    protected function make_checkbox($parameters = []) {
         $el = stack_input_factory::make('checkbox', 'ans1', $this->make_ta(), null, $parameters);
         return $el;
     }
@@ -70,7 +70,7 @@ class input_checkbox_test extends qtype_stack_testcase {
 
     public function test_simple_checkbox() {
         // @codingStandardsIgnoreStart
-        $el = stack_input_factory::make('checkbox', 'ans1', '[[1+x,true],[2+y,false]]', null, array());
+        $el = stack_input_factory::make('checkbox', 'ans1', '[[1+x,true],[2+y,false]]', null, []);
         // @codingStandardsIgnoreEnd
         $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" ' .
                 'id="stack1__ans1_1" /><label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
@@ -79,7 +79,7 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '<label for="stack1__ans1_2"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(2+y\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array(''), '', '', '', '', ''), 'stack1__ans1', false, null));
+                stack_input::SCORE, [''], '', '', '', '', ''), 'stack1__ans1', false, null));
         $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(1+x\)</span></span></li></ul>';
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
@@ -88,7 +88,7 @@ class input_checkbox_test extends qtype_stack_testcase {
     public function test_simple_casstring_checkbox() {
         // @codingStandardsIgnoreStart
         $el = stack_input_factory::make('checkbox', 'ans1', '[[1+x,true],[2+y,false]]',
-                null, array('options' => 'casstring'));
+                null, ['options' => 'casstring']);
         // @codingStandardsIgnoreEnd
         $expected = '<div class="answer">'
                 . '<div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'
@@ -96,7 +96,7 @@ class input_checkbox_test extends qtype_stack_testcase {
                 . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label for="stack1__ans1_2">'
                 . '<code>2+y</code></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array(''), '', '', '', '', ''), 'stack1__ans1', false, null));
+                stack_input::SCORE, [''], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_bad_teacheranswer() {
@@ -109,12 +109,12 @@ class input_checkbox_test extends qtype_stack_testcase {
                   'answering. Please contact your teacher.</p>' .
                   '<p>The model answer field for this input is malformed: <code>[x]</code>.</p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
+                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_duplicate_values() {
         // @codingStandardsIgnoreStart
-        $el = stack_input_factory::make('checkbox', 'ans1', '[[1,true],[2,false]]', null, array());
+        $el = stack_input_factory::make('checkbox', 'ans1', '[[1,true],[2,false]]', null, []);
         $el->adapt_to_model_answer('[[1,true],[1,false]]');
         // @codingStandardsIgnoreEnd
         $expected = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
@@ -124,12 +124,12 @@ class input_checkbox_test extends qtype_stack_testcase {
                   'answering. Please contact your teacher.</p>' .
                   '<p>Duplicate values have been found when generating the input options.</p></div>';
          $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
+                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_duplicate_values_ok() {
         // @codingStandardsIgnoreStart
-        $el = stack_input_factory::make('checkbox', 'ans1', '[[1,true],[2,false]]', null, array());
+        $el = stack_input_factory::make('checkbox', 'ans1', '[[1,true],[2,false]]', null, []);
         $el->adapt_to_model_answer('[[1,true],[2,false,1]]');
         // @codingStandardsIgnoreStart
         $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" ' .
@@ -139,7 +139,7 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '<label for="stack1__ans1_2"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(1\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
+                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_render_not_answered() {
@@ -155,11 +155,11 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '\(\sin \left( \pi\cdot n \right)\)</span></span></label></div></div>';
         $this->assertEquals($expected,
                 $el->render(new stack_input_state(
-                        stack_input::BLANK, array(), '', '', '', '', ''), 'stack1__ans1', false, null));
+                        stack_input::BLANK, [], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_render_x_plus_1() {
-        $el = $this->make_checkbox(array('options' => 'casstring'));
+        $el = $this->make_checkbox(['options' => 'casstring']);
         $expected = '<div class="answer">'
             . '<div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" checked="checked" />'
             . '<label for="stack1__ans1_1"><code>x+1</code></label></div><div class="option">'
@@ -168,11 +168,11 @@ class input_checkbox_test extends qtype_stack_testcase {
             . '<label for="stack1__ans1_3"><code>sin(pi*n)</code></label></div></div>';
         $this->assertEquals($expected,
                 $el->render(new stack_input_state(
-                        stack_input::SCORE, array('1'), '', '', '', '', ''), 'stack1__ans1', false, null));
+                        stack_input::SCORE, ['1'], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_render_latex() {
-        $el = $this->make_checkbox(array('options' => 'LaTeX'));
+        $el = $this->make_checkbox(['options' => 'LaTeX']);
         $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" ' .
                 'id="stack1__ans1_1" /><label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(x+1\)</span></span></label></div><div class="option">' .
@@ -183,14 +183,14 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '<label for="stack1__ans1_3"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(\sin \left( \pi\cdot n \right)\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+                        stack_input::SCORE, ['3'], '', '', '', '', ''), 'stack1__ans1', false, null));
         $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(x+1\)</span></span></li></ul>';
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
     public function test_render_latexdisplay() {
-        $el = $this->make_checkbox(array('options' => 'LaTeXdisplay'));
+        $el = $this->make_checkbox(['options' => 'LaTeXdisplay']);
         $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" ' .
                 'id="stack1__ans1_1" /><label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\[x+1\]</span></span></label></div><div class="option">' .
@@ -201,14 +201,14 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '<label for="stack1__ans1_3"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\[\sin \left( \pi\cdot n \right)\]</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+                        stack_input::SCORE, ['3'], '', '', '', '', ''), 'stack1__ans1', false, null));
         $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\[x+1\]</span></span></li></ul>';
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
 
     public function test_render_latexdisplaystyle() {
-        $el = $this->make_checkbox(array('options' => 'LaTeXdisplaystyle'));
+        $el = $this->make_checkbox(['options' => 'LaTeXdisplaystyle']);
         $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" ' .
                 'id="stack1__ans1_1" /><label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(\displaystyle x+1\)</span></span></label></div><div class="option">' .
@@ -220,38 +220,38 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '<span class="nolink">\(\displaystyle \sin \left( \pi\cdot n \right)\)</span></span></label>' .
                 '</div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+                        stack_input::SCORE, ['3'], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_validate_student_response_blank() {
         $options = new stack_options();
         $el = $this->make_checkbox();
-        $state = $el->validate_student_response(array('ans1_' => ''), $options, 'x+1', new stack_cas_security());
+        $state = $el->validate_student_response(['ans1_' => ''], $options, 'x+1', new stack_cas_security());
         $this->assertEquals(stack_input::BLANK, $state->status);
     }
 
     public function test_validate_student_response_x_plus_1() {
         $options = new stack_options();
         $el = $this->make_checkbox();
-        $state = $el->validate_student_response(array('ans1_1' => '1'), $options, '1', new stack_cas_security());
+        $state = $el->validate_student_response(['ans1_1' => '1'], $options, '1', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
-        $this->assertEquals(array('1'), $state->contents);
+        $this->assertEquals(['1'], $state->contents);
         $this->assertEquals('[x+1]', $state->contentsmodified);
     }
 
     public function test_validate_student_response_x_plus_1_2() {
         $options = new stack_options();
         $el = $this->make_checkbox();
-        $state = $el->validate_student_response(array('ans1_1' => '1', 'ans1_2' => '2'), $options, '2', new stack_cas_security());
+        $state = $el->validate_student_response(['ans1_1' => '1', 'ans1_2' => '2'], $options, '2', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
-        $this->assertEquals(array('1', '2'), $state->contents);
+        $this->assertEquals(['1', '2'], $state->contents);
         $this->assertEquals('[x+1,x+2]', $state->contentsmodified);
     }
 
     public function test_casstring_value() {
         $options = new stack_options();
         $el = stack_input_factory::make('checkbox', 'ans1', '[[1+x,true],[2+x^2,false],[{},false,"None of these"]]',
-                null, array('options' => 'casstring'));
+                null, ['options' => 'casstring']);
         $el->adapt_to_model_answer('[[1+x,true],[2+x^2,false],[{},false,"None of these"]]');
         $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'
                 . '<label for="stack1__ans1_1"><code>1+x</code></label></div><div class="option">'
@@ -260,10 +260,10 @@ class input_checkbox_test extends qtype_stack_testcase {
                 . '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" checked="checked" />'
                 . '<label for="stack1__ans1_3">None of these</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
-        $state = $el->validate_student_response(array('ans1_3' => '3'), $options, '2', new stack_cas_security());
+                stack_input::SCORE, ['3'], '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(['ans1_3' => '3'], $options, '2', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
-        $this->assertEquals(array('3'), $state->contents);
+        $this->assertEquals(['3'], $state->contents);
         $this->assertEquals('[{}]', $state->contentsmodified);
         $expected = 'A correct answer is: <code>[1+x]</code>';
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
@@ -272,7 +272,7 @@ class input_checkbox_test extends qtype_stack_testcase {
     public function test_logic_casstring() {
         $options = new stack_options();
         $el = stack_input_factory::make('checkbox', 'ans1', '[[x=1 nounor x=2,true],[x=1 nounand x=2,false],[x=1 nounor x=3,false]]',
-                null, array('options' => 'casstring'));
+                null, ['options' => 'casstring']);
         $el->adapt_to_model_answer('[[x=1 nounor x=2,true],[x=1 nounand x=2,false],[x=1 nounor x=3,false]]');
         $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'.
                     '<label for="stack1__ans1_1"><code>x = 1 or x = 2</code></label></div><div class="option">'.
@@ -280,10 +280,10 @@ class input_checkbox_test extends qtype_stack_testcase {
                     '</label></div><div class="option"><input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" checked="checked" />'.
                     '<label for="stack1__ans1_3"><code>x = 1 or x = 3</code></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
-        $state = $el->validate_student_response(array('ans1_3' => '3'), $options, '2', new stack_cas_security());
+                stack_input::SCORE, ['3'], '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(['ans1_3' => '3'], $options, '2', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
-        $this->assertEquals(array('3'), $state->contents);
+        $this->assertEquals(['3'], $state->contents);
         $this->assertEquals('[x = 1 nounor x = 3]', $state->contentsmodified);
         $expected = 'A correct answer is: <code>[x = 1 or x = 2]</code>';
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
@@ -293,7 +293,7 @@ class input_checkbox_test extends qtype_stack_testcase {
         $options = new stack_options();
         $ta = '[[3*noundiff(y,x)+y=0,true],[3*noundiff(y,x,2)+y=0,false],[nounint(y,x)+1=0,false],[7*\'diff(y,x,3)+5*y=0,false]]';
 
-        $el = stack_input_factory::make('checkbox', 'ans1', $ta, null, array());
+        $el = stack_input_factory::make('checkbox', 'ans1', $ta, null, []);
         $el->adapt_to_model_answer($ta);
         $expected = '<div class="answer"><div class="option">' .
                 '<input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" /><label for="stack1__ans1_1">' .
@@ -309,10 +309,10 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '<label for="stack1__ans1_4"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(7\cdot \left(\frac{\mathrm{d}^3 y}{\mathrm{d} x^3}\right)+5\cdot y=0\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
-        $state = $el->validate_student_response(array('ans1_3' => '3'), $options, '2', new stack_cas_security());
+                stack_input::SCORE, ['3'], '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(['ans1_3' => '3'], $options, '2', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
-        $this->assertEquals(array('3'), $state->contents);
+        $this->assertEquals(['3'], $state->contents);
         $this->assertEquals('[nounint(y,x)+1 = 0]', $state->contentsmodified);
         $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation"><span class="nolink">' .
                 '\(3\cdot \left(\frac{\mathrm{d} y}{\mathrm{d} x}\right)+y=0\)</span></span></li></ul>';
@@ -322,7 +322,7 @@ class input_checkbox_test extends qtype_stack_testcase {
     public function test_logic_latex() {
         $options = new stack_options();
         $el = stack_input_factory::make('checkbox', 'ans1', '[[x=1 nounor x=2,true],[x=1 nounand x=2,false],[x=1 nounor x=3,false]]',
-                null, array('options' => 'latex'));
+                null, ['options' => 'latex']);
         $el->adapt_to_model_answer('[[x=1 nounor x=2,true],[x=1 nounand x=2,false],[x=1 nounor x=3,false]]');
         $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" ' .
                 'id="stack1__ans1_1" /><label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
@@ -334,10 +334,10 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '<label for="stack1__ans1_3"><span class="filter_mathjaxloader_equation"><span class="nolink">' .
                 '\(x=1\,{\mbox{ or }}\, x=3\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
-        $state = $el->validate_student_response(array('ans1_3' => '3'), $options, '2', new stack_cas_security());
+                stack_input::SCORE, ['3'], '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(['ans1_3' => '3'], $options, '2', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
-        $this->assertEquals(array('3'), $state->contents);
+        $this->assertEquals(['3'], $state->contents);
         $this->assertEquals('[x = 1 nounor x = 3]', $state->contentsmodified);
     }
 
@@ -345,7 +345,7 @@ class input_checkbox_test extends qtype_stack_testcase {
 
         $options = new stack_options();
         $el = stack_input_factory::make('checkbox', 'ans1', '[[abs(x-5)=abs(5-x),true],[1+1,false],[x=3 nounor x=1,false]]',
-                null, array('options' => 'latex'));
+                null, ['options' => 'latex']);
         $el->adapt_to_model_answer('[[abs(x-5)=abs(5-x),true],[1+1,false],[x=3 nounor x=1,false]]');
         $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" ' .
                 'id="stack1__ans1_1" /><label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
@@ -358,17 +358,17 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '<label for="stack1__ans1_3"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(x=3\,{\mbox{ or }}\, x=1\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
-        $state = $el->validate_student_response(array('ans1_1' => '2'), $options, '2', new stack_cas_security());
+                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(['ans1_1' => '2'], $options, '2', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
-        $this->assertEquals(array('2'), $state->contents);
+        $this->assertEquals(['2'], $state->contents);
         $this->assertEquals('[1+1]', $state->contentsmodified);
     }
 
     public function test_stack_units() {
         $options = new stack_options();
         $el = stack_input_factory::make('checkbox', 'ans1', '[[stackunits(9.81,m/s^2),true],[stackunits(9.81,m/s),false],[stackunits(9.8,m/s^2),false]]',
-                null, array('options' => 'latex'));
+                null, ['options' => 'latex']);
         $el->adapt_to_model_answer('[[stackunits(9.81,m/s^2),true],[stackunits(9.81,m/s),false],[stackunits(9.8,m/s^2),false]]');
         $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" ' .
                 'id="stack1__ans1_1" /><label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
@@ -380,10 +380,10 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '<label for="stack1__ans1_3"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(9.8\, \frac{m}{s^2}\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
-        $state = $el->validate_student_response(array('ans1_1' => '2'), $options, '2', new stack_cas_security());
+                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(['ans1_1' => '2'], $options, '2', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
-        $this->assertEquals(array('2'), $state->contents);
+        $this->assertEquals(['2'], $state->contents);
         $this->assertEquals('[stackunits(9.81,m/s)]', $state->contentsmodified);
         $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(9.81\, \frac{m}{s^2}\)</span></span></li></ul>';
@@ -396,7 +396,7 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '[C, true, "Apply a trig formula to remove product"],' .
                 '[D, true, "Remove trig with complex exponentials, then integrate"],' .
                 '[X, false, "None of the other options"]]';
-        $el = stack_input_factory::make('checkbox', 'ans1', $ta, null, array('options' => ''));
+        $el = stack_input_factory::make('checkbox', 'ans1', $ta, null, ['options' => '']);
         $expected = '<div class="answer"><div class="option">' .
                 '<input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />' .
                 '<label for="stack1__ans1_1">Integration by parts</label></div><div class="option">' .
@@ -409,11 +409,11 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '<div class="option"><input type="checkbox" name="stack1__ans1_5" value="5" id="stack1__ans1_5" />' .
                 '<label for="stack1__ans1_5">None of the other options</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, array()));
-        $state = $el->validate_student_response(array('ans1_2' => '2', 'ans1_3' => '3'),
+                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, []));
+        $state = $el->validate_student_response(['ans1_2' => '2', 'ans1_3' => '3'],
                 $options, $ta, new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
-        $this->assertEquals(array('2', '3'), $state->contents);
+        $this->assertEquals(['2', '3'], $state->contents);
         $this->assertEquals('[B,C]', $state->contentsmodified);
 
         $this->assertEquals($ta, $el->get_teacher_answer());
@@ -428,7 +428,7 @@ class input_checkbox_test extends qtype_stack_testcase {
     public function test_stack_disp() {
         $options = new stack_options();
         $ta = '[[oc(-inf,a),true,stack_disp(oc(-inf,a),"i")],[cc(-inf,a),false],[oo(-inf,a),false]]';
-        $el = stack_input_factory::make('checkbox', 'ans1', $ta, null, array('options' => ''));
+        $el = stack_input_factory::make('checkbox', 'ans1', $ta, null, ['options' => '']);
         $expected = '<div class="answer"><div class="option">' .
                 '<input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />' .
                 '<label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
@@ -440,11 +440,11 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '<label for="stack1__ans1_3"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(\left( -\infty ,\, a\right)\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, array()));
-        $state = $el->validate_student_response(array('ans1_2' => '2', 'ans1_3' => '3'),
+                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, []));
+        $state = $el->validate_student_response(['ans1_2' => '2', 'ans1_3' => '3'],
                 $options, $ta, new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
-        $this->assertEquals(array('2', '3'), $state->contents);
+        $this->assertEquals(['2', '3'], $state->contents);
         $this->assertEquals('[cc(-inf,a),oo(-inf,a)]', $state->contentsmodified);
 
         $this->assertEquals($ta, $el->get_teacher_answer());

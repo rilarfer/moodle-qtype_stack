@@ -32,7 +32,7 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
         $r = new MP_List([new MP_String('htmlformat')]);
         $flat = $this->is_flat();
 
-        $items = array();
+        $items = [];
         foreach ($this->children as $item) {
             $c = $item->compile(castext2_parser_utils::RAWFORMAT, $options);
             if ($c !== null) {
@@ -77,6 +77,6 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        return array();
+        return [];
     }
 }
